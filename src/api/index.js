@@ -32,12 +32,12 @@ export const getAllPosts = () => {
 
 /**
  * Get all of the posts for a particular category
- * @param {Number} categoryId
+ * @param {String} categoryName
  */
-export const getPosts = categoryId => {
-  return fetch(`${api}/${categoryId}/posts`, { headers })
+export const getPosts = categoryName => {
+  return fetch(`${api}/${categoryName}/posts`, { headers })
     .then(res => res.json())
-    .then(data => data.posts);
+    .then(data => data);
 };
 
 /**
