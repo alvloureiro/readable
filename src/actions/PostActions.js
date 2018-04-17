@@ -51,6 +51,15 @@ export const appDidEditPost = post => {
   };
 };
 
+export const appSaveEditedPost = post => {
+  return {
+    type: APP_SAVE_EDITED_POST,
+    payload: {
+      post
+    }
+  };
+};
+
 export const appDidSaveEditedPost = () => {
   return {
     type: APP_DID_SAVE_EDITED_POST
