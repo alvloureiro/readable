@@ -1,15 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
-import { withRouter } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import MenuItem from 'material-ui/MenuItem';
 import RaisedButton from 'material-ui/RaisedButton';
 import SelectField from 'material-ui/SelectField';
-import SnackBar from 'material-ui/Snackbar';
 import TextField from 'material-ui/TextField';
-import moment from 'moment';
-import uuid from 'uuid/v1';
-import { appSaveNewPost } from 'actions';
 
 const validate = values => {
   const errors = {};
@@ -46,31 +42,16 @@ const renderSelectField = ({ input, label, meta: { touched, error }, children, .
 );
 
 class PostForm extends Component {
-  savePost = data => {
-    const timestamp = moment().valueOf();
-    const id = uuid();
-    const post = { ...data, timestamp, id };
-    this.props.appSaveNewPost(post);
-  };
-
-  goBackHome = () => {
-    this.props.history.push('/');
-  };
-
-  requestClose = () => {
-    this.goBackHome();
-  };
-
-  actionClicked = () => {
-    this.goBackHome();
-  };
+  componentDidMount() {
+    if (this.props.post) this.props.reset();
+  }
 
   render() {
-    const { pristine, reset, submitting, categories, handleSubmit, message } = this.props;
+    const { pristine, reset, submitting, categories, handleSubmit, onSaveFormData } = this.props;
+
     return (
       <div style={{ marginLeft: 50 }}>
-        <h2>{this.props.title ? this.props.title : ''}</h2>
-        <form onSubmit={handleSubmit(data => this.savePost(data))}>
+        <form onSubmit={handleSubmit(data => onSaveFormData(data))}>
           <div>
             <Field name="title" component={renderTextField} label="Title" />
           </div>
@@ -107,33 +88,29 @@ class PostForm extends Component {
             <RaisedButton label="Clear Values" disabled={pristine || submitting} onClick={reset} />
           </div>
         </form>
-
-        <SnackBar
-          open={message ? true : false}
-          message={message ? message : ''}
-          action="Home"
-          autoHideDuration={3000}
-          onRequestClose={this.requestClose}
-          onActionClick={this.actionClicked}
-        />
       </div>
     );
   }
 }
 
-const mapStateToProps = ({ category, app }) => {
-  const { categories } = category;
-  const { message } = app;
+PostForm.propTypes = {
+  onSaveFormData: PropTypes.func.isRequired
+};
 
+const mapStateToProps = ({ CategoryReducer, PostReducer }) => {
+  const { categories } = CategoryReducer;
+  const { post } = PostReducer;
   return {
     categories,
-    message
+    initialValues: { ...post },
+    validate
   };
 };
 
-PostForm = withRouter(connect(mapStateToProps, { appSaveNewPost })(PostForm));
-
-export default reduxForm({
-  form: 'PostForm',
-  validate
+PostForm = reduxForm({
+  form: 'PostForm'
 })(PostForm);
+
+PostForm = connect(mapStateToProps)(PostForm);
+
+export default PostForm;
