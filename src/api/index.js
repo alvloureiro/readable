@@ -1,4 +1,5 @@
 const api = 'https://stormy-citadel-22616.herokuapp.com';
+//const api = 'http://localhost:3001';
 
 let token = localStorage.token;
 if (!token) {
@@ -106,7 +107,7 @@ export const removePost = post => {
 export const getComments = postId => {
   return fetch(`${api}/posts/${postId}/comments`, { headers })
     .then(result => result.json())
-    .then(data => data.comments);
+    .then(data => data);
 };
 
 /**

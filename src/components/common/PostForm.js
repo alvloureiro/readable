@@ -47,46 +47,66 @@ class PostForm extends Component {
   }
 
   render() {
-    const { pristine, reset, submitting, categories, handleSubmit, onSaveFormData } = this.props;
+    const {
+      pristine,
+      reset,
+      submitting,
+      categories,
+      handleSubmit,
+      onSaveFormData,
+      isDisabled
+    } = this.props;
 
     return (
-      <div style={{ marginLeft: 50 }}>
+      <div>
         <form onSubmit={handleSubmit(data => onSaveFormData(data))}>
-          <div>
-            <Field name="title" component={renderTextField} label="Title" />
-          </div>
-          <div>
-            <Field name="category" component={renderSelectField} label="Category">
-              {categories.map(category => (
-                <MenuItem
-                  key={category.name}
-                  value={`${category.name}`}
-                  primaryText={category.name}
-                />
-              ))}
-            </Field>
-          </div>
-          <div>
-            <Field
-              name="body"
-              component={renderTextField}
-              label="Description"
-              multiLine={true}
-              rows={5}
-            />
-          </div>
-          <div>
-            <Field name="author" component={renderTextField} label="Author" />
-          </div>
-          <div style={{ marginTop: 30 }}>
-            <RaisedButton
-              label="Submit"
-              type="submit"
-              disabled={pristine || submitting}
-              style={{ marginRight: 10 }}
-            />
-            <RaisedButton label="Clear Values" disabled={pristine || submitting} onClick={reset} />
-          </div>
+          <fieldset disabled={isDisabled} style={{ margin: 50, border: '2px solid #00BCD4' }}>
+            <div>
+              <Field
+                name="title"
+                component={renderTextField}
+                label="Title"
+                style={{ width: '100%' }}
+              />
+            </div>
+            <div>
+              <Field name="category" component={renderSelectField} label="Category">
+                {categories.map(category => (
+                  <MenuItem
+                    key={category.name}
+                    value={`${category.name}`}
+                    primaryText={category.name}
+                  />
+                ))}
+              </Field>
+            </div>
+            <div>
+              <Field
+                name="body"
+                component={renderTextField}
+                label="Description"
+                multiLine={true}
+                rows={4}
+                style={{ width: '100%' }}
+              />
+            </div>
+            <div>
+              <Field name="author" component={renderTextField} label="Author" />
+            </div>
+            <div style={{ marginTop: 30 }}>
+              <RaisedButton
+                label="Submit"
+                type="submit"
+                disabled={pristine || submitting}
+                style={{ marginRight: 10 }}
+              />
+              <RaisedButton
+                label="Clear Values"
+                disabled={pristine || submitting}
+                onClick={reset}
+              />
+            </div>
+          </fieldset>
         </form>
       </div>
     );
@@ -94,7 +114,13 @@ class PostForm extends Component {
 }
 
 PostForm.propTypes = {
-  onSaveFormData: PropTypes.func.isRequired
+  onSaveFormData: PropTypes.func.isRequired,
+  isDisabled: PropTypes.bool.isRequired
+};
+
+PostForm.defaultProps = {
+  onSaveFormData: () => {},
+  isDisabled: false
 };
 
 const mapStateToProps = ({ CategoryReducer, PostReducer }) => {

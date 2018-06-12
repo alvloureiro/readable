@@ -33,12 +33,12 @@ class PostCreate extends Component {
       <div style={{ marginLeft: 50 }}>
         <h2>{title ? title : ''}</h2>
 
-        <PostForm onSaveFormData={this.savePost} />
+        <PostForm onSaveFormData={this.savePost} disabled={false} />
         <SnackBar
           open={message ? true : false}
           message={message ? message : ''}
           action="Home"
-          autoHideDuration={3000}
+          autoHideDuration={1500}
           onRequestClose={this.requestClose}
           onActionClick={this.actionClicked}
         />

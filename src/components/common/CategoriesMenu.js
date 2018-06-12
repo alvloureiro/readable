@@ -55,8 +55,8 @@ class CategoriesMenu extends Component {
   }
 }
 
-const mapStateToProps = ({ category }) => {
-  const { categories, checked } = category;
+const mapStateToProps = ({ CategoryReducer }) => {
+  const { categories, checked } = CategoryReducer;
   return {
     categories,
     checked

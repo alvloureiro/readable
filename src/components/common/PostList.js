@@ -1,20 +1,25 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import { List } from 'material-ui/List';
 import PostItem from './PostItem';
 
 class PostList extends Component {
   render() {
-    const { posts } = this.props;
-    return <List>{posts.map(postItem => <PostItem key={postItem.id} post={postItem} />)}</List>;
+    const { allposts } = this.props;
+    return (
+      <div>
+        <List>{allposts.map(postItem => <PostItem key={postItem.id} post={postItem} />)}</List>
+      </div>
+    );
   }
 }
 
-const mapStateToProps = ({ post }) => {
-  const { posts } = post;
+const mapStateToProps = ({ PostReducer }) => {
+  const { allposts } = PostReducer;
   return {
-    posts
+    allposts
   };
 };
 
-export default connect(mapStateToProps)(PostList);
+export default withRouter(connect(mapStateToProps)(PostList));

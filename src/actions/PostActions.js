@@ -9,7 +9,13 @@ import {
   APP_REMOVE_POST,
   APP_SAVE_EDITED_POST,
   APP_SAVE_NEW_POST,
-  APP_TRY_TO_VOTE_ON_POST
+  APP_TRY_TO_VOTE_ON_POST,
+  APP_DID_SORTED_POSTS,
+  APP_GET_ALL_COMMENTS_BY_POST,
+  APP_DID_GET_ALL_COMMENTS_BY_POST_SUCCESS,
+  APP_DID_GET_ALL_COMMENTS_BY_POST_ERROR,
+  APP_ENABLE_EDIT_POST,
+  APP_DISABLE_EDIT_POST
 } from './type';
 
 export const appAddNewPost = () => {
@@ -27,9 +33,10 @@ export const appSaveNewPost = post => {
   };
 };
 
-export const appDidSaveNewPost = () => {
+export const appDidSaveNewPost = updatedlistpost => {
   return {
-    type: APP_DID_SAVE_NEW_POST
+    type: APP_DID_SAVE_NEW_POST,
+    payload: { updatedlistpost }
   };
 };
 
@@ -60,9 +67,12 @@ export const appSaveEditedPost = post => {
   };
 };
 
-export const appDidSaveEditedPost = () => {
+export const appDidSaveEditedPost = updatedposts => {
   return {
-    type: APP_DID_SAVE_EDITED_POST
+    type: APP_DID_SAVE_EDITED_POST,
+    payload: {
+      updatedposts
+    }
   };
 };
 
@@ -93,5 +103,59 @@ export const appTryToVoteOnPost = post => {
 export const appDidVoteOnPost = () => {
   return {
     type: APP_DID_VOTE_ON_POST
+  };
+};
+
+export const appDidSortedPosts = posts => {
+  return {
+    type: APP_DID_SORTED_POSTS,
+    payload: {
+      posts
+    }
+  };
+};
+
+export const appGetAllCommentsByPost = post => {
+  return {
+    type: APP_GET_ALL_COMMENTS_BY_POST,
+    payload: {
+      post
+    }
+  };
+};
+
+export const appDidGetAllCommentsByPostSuccess = comments => {
+  return {
+    type: APP_DID_GET_ALL_COMMENTS_BY_POST_SUCCESS,
+    payload: {
+      comments
+    }
+  };
+};
+
+export const appDidGetAllCommentsByPostError = error => {
+  return {
+    type: APP_DID_GET_ALL_COMMENTS_BY_POST_ERROR,
+    payload: {
+      error
+    }
+  };
+};
+
+export const appEnableEditPost = isFormDisabled => {
+  return {
+    type: APP_ENABLE_EDIT_POST,
+    payload: {
+      isFormDisabled
+    }
+  };
+};
+
+export const appDisableEditPost = isFormEnable => {
+  return {
+    type: APP_DISABLE_EDIT_POST,
+    payload: {
+      isFormEnable
+    }
   };
 };
